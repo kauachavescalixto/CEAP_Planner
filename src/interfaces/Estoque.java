@@ -1,7 +1,17 @@
 package interfaces;
 
+import java.awt.Color;
+
 public class Estoque extends CeapInterface {
 
+	private String nome;
+	
+	public Estoque(String nome) {
+		this.nome = nome;
+		setBackground(Color.cyan);
+		
+	}
+	
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub

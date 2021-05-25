@@ -1,8 +1,16 @@
 package interfaces;
 
-import java.awt.Component;
+import java.awt.Color;
 
 public class Cadastro_User extends CeapInterface {
+	
+	private String nome;
+	
+	public Cadastro_User(String nome) {
+		this.nome = nome;
+		setBackground(Color.green);
+	
+	}
 
 	@Override
 	public void init() {
@@ -16,10 +24,5 @@ public class Cadastro_User extends CeapInterface {
 		
 	}
 
-	@Override
-	public void paint() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

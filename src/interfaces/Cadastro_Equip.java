@@ -3,15 +3,22 @@ package interfaces;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import main.InterfaceManager;
+
 public class Cadastro_Equip extends CeapInterface {
 
+	private String nome;
+	
+	public Cadastro_Equip(String nome) {
+		this.nome = nome;
+		setBackground(Color.blue);
+		
+	}
+	
 	@Override
 	public void init() {
+		// TODO Auto-generated method stub
 		
-		setBackground(Color.green);
-		setSize(InterfaceManager.WIDTH, InterfaceManager.HEIGHT);
-		
-
 	}
 
 	@Override
@@ -20,10 +27,6 @@ public class Cadastro_Equip extends CeapInterface {
 
 	}
 
-	@Override
-	public void paint() {
-		// TODO Auto-generated method stub
 
-	}
 
 }
