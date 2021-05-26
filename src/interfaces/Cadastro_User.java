@@ -21,6 +21,8 @@ public class Cadastro_User extends CeapInterface {
 
 	@Override
 	public void init() {
+		
+		System.out.println("print de teste");
 		// TODO Auto-generated method stub
 		
 	}
