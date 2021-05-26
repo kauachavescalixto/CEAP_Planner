@@ -24,10 +24,4 @@ public class Estoque extends CeapInterface {
 
 	}
 
-	@Override
-	public void paint() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

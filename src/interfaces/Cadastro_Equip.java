@@ -11,7 +11,7 @@ public class Cadastro_Equip extends CeapInterface {
 	
 	public Cadastro_Equip(String nome) {
 		this.nome = nome;
-		setBackground(Color.blue);
+		setBackground(Color.pink);
 		
 	}
 	

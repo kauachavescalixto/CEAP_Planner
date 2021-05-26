@@ -11,6 +11,7 @@ public class CeapWindow extends JFrame{
 	public static final int height = 648;
 	
 	public CeapWindow(String version) {
+
 		
 		setTitle("CEAP Planer "+version);
 		setVisible(true);
