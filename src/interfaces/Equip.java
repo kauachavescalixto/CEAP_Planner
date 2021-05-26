@@ -10,6 +10,8 @@ public class Equip extends CeapInterface {
 		this.nome = nome;
 		setBackground(Color.pink);
 		
+		
+		
 	}
 	
 	@Override
@@ -23,5 +25,6 @@ public class Equip extends CeapInterface {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	
 }
