@@ -259,5 +259,9 @@ public class InterfaceManager extends JPanel {
 		
 	}
 	
+	public float sideBarGetWidth() {
+		return buttonsPanel.getWidth();
+	}
+	
 
 }
