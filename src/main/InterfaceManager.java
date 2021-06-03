@@ -17,12 +17,13 @@ import javax.swing.JPanel;
 import interfaces.Cadastro;
 import interfaces.Cadastro_Equip;
 import interfaces.Cadastro_User;
+import interfaces.CeapInterface;
 import interfaces.Equip;
 import interfaces.Estoque;
 import interfaces.LogoCeap;
 import interfaces.Timeline;
 
-public class InterfaceManager extends JPanel {
+public class InterfaceManager extends CeapInterface {
 
 	String name;
 	/* 		*COLORS*
@@ -35,11 +36,7 @@ public class InterfaceManager extends JPanel {
 	 * BLACK - 0, 0, 0 
 	 * 
 	 */
-		
-	public static final Color orange = new Color(241,149,0);
-	public static final Color green = new Color(126, 185, 40);
-	public static final Color blue = new Color(3, 175, 230);
-	public static final Color purple = new Color(90, 80, 157);
+
 	
 	private static int width = CeapWindow.width;
 	private static int height = CeapWindow.height;
@@ -121,7 +118,7 @@ public class InterfaceManager extends JPanel {
 			sideButtons[i].setBorder(null);
 		}
 		
-		defeventos();
+		definir_eventos();
 
 		
 		buttonsPanel.setBorder(BorderFactory.createDashedBorder(Color.green, 5f, 5f));
@@ -170,8 +167,46 @@ public class InterfaceManager extends JPanel {
 	
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void PanelsInstance() {
+
+		cadastro.setSize(width, height);
+		
+		cadastro_user.setSize(width, height);
+		
+		cadastro_equip.setSize(width, height);
+		
+		equip.setSize(width, height);
+		
+		timeline.setSize(width, height);
+		
+		estoque.setSize(width, height);
+		
+		
+		sub.setBounds(0,0,width, height);
+		add(sub);
+	}
 	
-	public void defeventos() {
+	public void click(int index) {
+		for (int i = 0; i < checkbox.length; i++) {
+			sideButtons[i].setBackground(green);
+		}
+		checkbox[index].doClick();
+		
+	}
+	
+	public float sideBarGetWidth() {
+		return buttonsPanel.getWidth();
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void definir_eventos() {
 		
 		/////////////////////BUTTONS////////////////////////
 		
@@ -230,37 +265,7 @@ public class InterfaceManager extends JPanel {
 				}
 			}
 		});
-	}
-
-	public void PanelsInstance() {
-
-		cadastro.setSize(width, height);
 		
-		cadastro_user.setSize(width, height);
-		
-		cadastro_equip.setSize(width, height);
-		
-		equip.setSize(width, height);
-		
-		timeline.setSize(width, height);
-		
-		estoque.setSize(width, height);
-		
-		
-		sub.setBounds(0,0,width, height);
-		add(sub);
-	}
-	
-	public void click(int index) {
-		for (int i = 0; i < checkbox.length; i++) {
-			sideButtons[i].setBackground(green);
-		}
-		checkbox[index].doClick();
-		
-	}
-	
-	public float sideBarGetWidth() {
-		return buttonsPanel.getWidth();
 	}
 	
 
