@@ -6,8 +6,13 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import main.CeapWindow;
+
 public abstract class CeapInterface extends JPanel{
 		
+	public static final int w = CeapWindow.width;
+	public static final int h = CeapWindow.height;
+	
 	public static final Color orange = new Color(241,149,0);
 	public static final Color green = new Color(126, 185, 40);
 	public static final Color blue = new Color(3, 175, 230);
