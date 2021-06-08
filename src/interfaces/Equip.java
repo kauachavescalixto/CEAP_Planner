@@ -249,5 +249,6 @@ public class Equip extends CeapInterface {
 		});
 
 	}
-
+	
+	
 }
