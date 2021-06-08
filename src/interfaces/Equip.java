@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +31,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import database.BD;
-import database.DAO;
+import database.PreLoadConnect;
 import main.CeapWindow;
 import main.InterfaceManager;
 import util.ThirdA;
@@ -37,7 +39,7 @@ import util.ThirdB;
 
 public class Equip extends CeapInterface {
 
-	private String titulo;
+	private String titulo = "Equipamentos em uso";
 
 	GridLayout layout = new GridLayout(0, 1);
 
@@ -50,10 +52,14 @@ public class Equip extends CeapInterface {
 
 	private JLabel name;
 
-	public Equip(String nome) {
-		this.titulo = nome;
-		setBackground(orange);
+	private PreLoadConnect plc;
+
+	public Equip(int w, int h) {
+		this.plc = InterfaceManager.plc;
 		setLayout(null);
+		setBackground(orange);
+
+		setSize(w, h);
 
 		init();
 
@@ -62,7 +68,6 @@ public class Equip extends CeapInterface {
 		mainPanel();
 
 		definir_eventos();
-
 	}
 
 	public void mainPanel() {
@@ -117,19 +122,132 @@ public class Equip extends CeapInterface {
 
 		thirdB.adicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				thirdA.dtm_emUso.addRow(new String[] {
-						
-						(String) thirdB.nome.getSelectedItem(),
-						thirdB.horario.getText(),
-						(String) thirdB.equip.getSelectedItem(),
-						thirdB.emails.get(thirdB.nome.getSelectedIndex())
-						
+
+						(String) thirdB.nome.getSelectedItem(), thirdB.horario.getText(),
+						(String) thirdB.equip.getSelectedItem(), plc.cadDAO.emails.get(thirdB.nome.getSelectedIndex())
+
 				});
-				
+
+				plc.usoDAO.emUso.setId(0);
+				plc.usoDAO.emUso.setNome((String) thirdB.nome.getSelectedItem());
+				plc.usoDAO.emUso.setHora(thirdB.horario.getText());
+				plc.usoDAO.emUso.setEquip((String) thirdB.equip.getSelectedItem());
+				plc.usoDAO.emUso.setEmail(plc.cadDAO.emails.get(thirdB.nome.getSelectedIndex()));
+
+				plc.usoDAO.atualizar(INCLUSAO);
+
 			}
 		});
-		
+
+		thirdB.devolvido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+				DateTimeFormatter dtfHora = DateTimeFormatter.ofPattern("HH:mm");
+
+				plc.timelineDAO.timeline.setId(0);
+
+				plc.timelineDAO.timeline
+						.setNome(String.valueOf(thirdA.tb_emUso.getValueAt(thirdA.tb_emUso.getSelectedRow(), 0)));
+
+				plc.timelineDAO.timeline.setDatahora(dtf.format(LocalDateTime.now()) + " "
+						+ String.valueOf(thirdA.tb_emUso.getValueAt(thirdA.tb_emUso.getSelectedRow(), 1) + " - "
+								+ dtfHora.format(LocalDateTime.now())));
+
+				plc.timelineDAO.timeline
+						.setEquip(String.valueOf(thirdA.tb_emUso.getValueAt(thirdA.tb_emUso.getSelectedRow(), 2)));
+
+				plc.timelineDAO.timeline
+						.setEmail(String.valueOf(thirdA.tb_emUso.getValueAt(thirdA.tb_emUso.getSelectedRow(), 3)));
+
+				plc.timelineDAO.atualizar(INCLUSAO);
+
+				plc.usoDAO.emUso
+						.setNome(String.valueOf(thirdA.tb_emUso.getValueAt(thirdA.tb_emUso.getSelectedRow(), 0)));
+				plc.usoDAO.atualizar(EXCLUSAO);
+
+				thirdA.dtm_emUso.removeRow(thirdA.tb_emUso.getSelectedRow());
+
+			}
+		});
+
+		thirdB.notificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+
+				plc.devDAO.devendo.setId(0);
+
+				plc.devDAO.devendo
+						.setNome(String.valueOf(thirdA.tb_emUso.getValueAt(thirdA.tb_emUso.getSelectedRow(), 0)));
+
+				plc.devDAO.devendo
+						.setHora(String.valueOf(thirdA.tb_emUso.getValueAt(thirdA.tb_emUso.getSelectedRow(), 1)));
+
+				plc.devDAO.devendo
+						.setEquip(String.valueOf(thirdA.tb_emUso.getValueAt(thirdA.tb_emUso.getSelectedRow(), 2)));
+
+				plc.devDAO.devendo
+						.setEmail(String.valueOf(thirdA.tb_emUso.getValueAt(thirdA.tb_emUso.getSelectedRow(), 3)));
+
+				plc.devDAO.devendo.setNotificado(dtf.format(LocalDateTime.now()));
+
+				
+				plc.devDAO.atualizar(INCLUSAO);
+
+				
+				
+				plc.usoDAO.emUso
+						.setNome(String.valueOf(thirdA.tb_emUso.getValueAt(thirdA.tb_emUso.getSelectedRow(), 0)));
+				
+				plc.usoDAO.atualizar(EXCLUSAO);
+
+				thirdA.dtm_emUso.removeRow(thirdA.tb_emUso.getSelectedRow());
+				thirdA.dtm_devendo.addRow(new String[] {
+						plc.devDAO.devendo.getNome(),
+						plc.devDAO.devendo.getHora(),
+						plc.devDAO.devendo.getNotificado(),
+						plc.devDAO.devendo.getEquip(),
+						plc.devDAO.devendo.getEmail()
+						
+				});
+			}
+		});
+
+		thirdA.devolvido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+				DateTimeFormatter dtfHora = DateTimeFormatter.ofPattern("HH:mm");
+
+				plc.timelineDAO.timeline.setId(0);
+
+				plc.timelineDAO.timeline
+						.setNome(String.valueOf(thirdA.tb_devendo.getValueAt(thirdA.tb_devendo.getSelectedRow(), 0)));
+
+				plc.timelineDAO.timeline.setDatahora(dtf.format(LocalDateTime.now()) + " "
+						+ String.valueOf(thirdA.tb_devendo.getValueAt(thirdA.tb_devendo.getSelectedRow(), 1) + " - "
+								+ dtfHora.format(LocalDateTime.now()) + " (com atraso)"));
+
+				plc.timelineDAO.timeline
+						.setEquip(String.valueOf(thirdA.tb_devendo.getValueAt(thirdA.tb_devendo.getSelectedRow(), 2)));
+
+				plc.timelineDAO.timeline
+						.setEmail(String.valueOf(thirdA.tb_devendo.getValueAt(thirdA.tb_devendo.getSelectedRow(), 3)));
+
+				plc.timelineDAO.atualizar(INCLUSAO);
+
+				plc.devDAO.devendo
+						.setNome(String.valueOf(thirdA.tb_devendo.getValueAt(thirdA.tb_devendo.getSelectedRow(), 0)));
+				plc.devDAO.atualizar(EXCLUSAO);
+
+				thirdA.dtm_devendo.removeRow(thirdA.tb_devendo.getSelectedRow());
+
+			}
+		});
+
 	}
 
 }
